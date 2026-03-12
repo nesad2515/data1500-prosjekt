@@ -3,14 +3,14 @@ Semesterprosjekt i DATA1500 våren 2026.
 
 ## Om formen og evalueringen
 
-Jeg sitter nå med design av den andre obligen, som blir et prosjekt, som skal omfatte alle læringsmål. Vi snakket om følgende endringer: 
+Endringer i forhold til oblig 1: 
 - tillate grupper (jeg tenker maksimalt 3 studenter for å minimalisere gruppekoordinering og "free riders"); de kan også levere parvis eller individuelt;
 - lage innlevering i github education (det blir lettere for dere (TA), men det vil mest sannsynlig komme en del meldinger fra dem som ikke har registrert seg for å få "github fordeler"; jeg mener de må laste opp studentbevis eller lignende). 
 
-Når det gjelder retting, så tenker jeg å foreslå:
-- dere sjekker datamodellen (mermaid.live); kun for åpnebare feil eller om den mangler
-- dere sjekker en demo,  hvor studenten demonstrerer at en spesifikk SQL-spørring mot sin egen modell (de må da demonstrere med screenshots eller video) hvor de også må reflektere rundt effektiviteten til SQL-spørringen og transaksjonshåndtering
-- Jeg ber dem også om å evaluere selv eget læringsutbytte i forhold til alle læringmål for DATA1500 i form av en tabell, som dere kan bare sjekke overfladisk. 
+Om retting:
+- TA sjekker datamodellen (mermaid.live); kun for åpnebare feil eller om den mangler
+- TA sjekker en demo,  hvor studenten demonstrerer at en spesifikk SQL-spørring mot sin egen modell (de må da demonstrere med screenshots eller video) hvor de også må reflektere rundt effektiviteten til SQL-spørringen og transaksjonshåndtering
+- Studentene selv evaluerer sin læringsutbytte i forhold til alle læringmål for DATA1500 i form av en tabell, som kan brukes under evaluering.
 
 ```
 KM - Kunnskapsmål
