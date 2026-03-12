@@ -19,10 +19,10 @@ GKM - Mål for generell kompetanse
 ``` 
 
 
-|   LM   |    Beskr    |  2            | 3          | 4          | 5           | 6           | 7        | 9     | 10   | 11      | 15       | 16      | 17           | 18          | 19        | 20        |
-|------|---- ---|--------------|------------|------------|-------------|----------|-------|-------|------|------------|---------|--------------|-------------|-------------|-----------|-----------|
-||| Begrep, eks. | Data i dag | Praktisk   | Modellering | Realisering | SQL      | SQL   | SQL  | Av. SQL | Tx / Opt | NoSql   | Datavarehus  | Datavarehus | Summarium | Summarium | 
-||| 1, 9, 15     | 12, 13     | Docker     | 7, 6        | 8           | 3, 11    | 2, 4  | 2, 4 | 5       | 10       | 14, 15  | Alle / prosj.| Alle / prosj.| Alle    | Alle      |
+|LM  | Beskr  |  2  | 3 | 4 | 5 | 6 | 7 | 9     | 10   | 11  | 15   | 16    | 17  | 18  | 19  | 20  |
+|----|--------|-----|---|---|---|---|---|-------|------|-----|------|-------|-----|-----|-----|-----|
+|    |        | Begrep, eks. | Data i dag | Praktisk   | Modellering | Realisering | SQL      | SQL   | SQL  | Av. SQL | Tx / Opt | NoSql   | Datavarehus  | Datavarehus | Summarium | Summarium |
+|    |        | 1, 9, 15     | 12, 13     | Docker     | 7, 6        | 8           | 3, 11    | 2, 4  | 2, 4 | 5       | 10       | 14, 15  | Alle / prosj.| Alle / prosj.| Alle    | Alle      |
 | KM1 | Gjøre rede for hva et databasesystem er og hvilke deler det består av | | | | | | | | | | | | | | | |
 | KM2 | Gjøre rede for hva nosql-databaser er og hvor dette benyttes  | | | | | | | | | | | | | | | |
 | KM2 | Forklare hva transaksjoner er og hvordan de utføres | | | | | | | | | | | | | | | |
@@ -35,9 +35,3 @@ GKM - Mål for generell kompetanse
 | FM4 | Utføre select og subselect spørringer ved hjelp av SQL | | | | | | | | | | | | | | | |
 | FM5 | Tegne ER-modeller og generere databasescript ved bruk av software | | | | | | | | | | | | | | | |
 | GKM1| "Formidle hvordan databaser dokumenteres og designes med ER-modeller | | | | | | | | | | | | | | | |
-
-
-| Left-aligned | Center-aligned | Right-aligned |
-| :---         |     :---:      |          ---: |
-| git status   | git status     | git status    |
-| git diff     | git diff       | git diff      |
