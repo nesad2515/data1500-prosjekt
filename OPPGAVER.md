@@ -1242,7 +1242,7 @@ Korrekt sluttresultat: 10 000 − 3 000 + 1 500 = **8 500 kr**.
 
 Bruk Python programmeringsspråk for å simulerer "samtidighet", dvs. at Ane og Bjørn kobler seg til databasen med to separate Psycopg2-koblinger (hvor Psycopg2 er en mye brukt adapter for Python programmeringsspråket; https://www.psycopg.org/), som da utføres i to separate *tråder* i Python (`threading` modulen). 
 
-Ta utgangspunkt i Python programmet i filen ´oppgave9.py´ hvor funksjoner for alle operasjoner mot databasen og samtidighet som simulerer den usikre *les-beregn-skriv*-syklusen er implementert. Dette skal gjennomgås på forelesninger.
+Ta utgangspunkt i Python programmet i filen ´startkode/oppgave9.py´ hvor funksjoner for alle operasjoner mot databasen og samtidighet som simulerer den usikre *les-beregn-skriv*-syklusen er implementert. Dette skal gjennomgås på forelesninger.
 
 Skriv python kode som genererer følgende output:
 
