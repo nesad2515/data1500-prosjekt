@@ -22,3 +22,5 @@ Vennligst rapporter alle feil du finner til Janis (bruk e-post).
 | 11 | flere mapper/filer i en python appl. | `besvarelse/oppgave11` | Ja. I `RAPPORT.md` |
 | 12 | -| - | Ja. Skriv refleksjon i RAPPORT.md |
 
+For oppgavene 2, 3 og 4 kan dere vurdere selv om dere ønsker å legge inn noen kommentarer i rapporten.
+

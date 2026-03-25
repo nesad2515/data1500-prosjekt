@@ -706,9 +706,9 @@ LOT          }o--|| KONTOER   : "tilhører"
 
 ## 6. Prosjektoppgaver (NS 4102)
 
-### Oppgave 1: Implementasjon av datamodellen og mermaid-diagrammet
+### Oppgave 1: Implementasjon av datamodellen, mermaid-diagrammet og normalform
 
-Skriv et SQL-skript (`oppgave1.sql` legges i mappen `besvarelse/test-scripts`) som oppretter følgende tabeller med korrekte datatyper, primærnøkler og fremmednøkler i PostgreSQL:
+**Del A** Skriv et SQL-skript (`oppgave1.sql` legges i mappen `besvarelse/test-scripts`) som oppretter følgende tabeller med korrekte datatyper, primærnøkler og fremmednøkler i PostgreSQL:
 
 - `Bøker`, `Valutaer`, `Valutakurser`
 - `Kontoklasser`, `Kontoer`
@@ -716,9 +716,11 @@ Skriv et SQL-skript (`oppgave1.sql` legges i mappen `besvarelse/test-scripts`) s
 - `Transaksjoner`, `Posteringer`
 - `MVA_koder`, `MVA_linjer`
 
-Lag et diagram i mermaid.live. Skriv mermaid-koden i filen RAPPORT.md.
+**Del B** Lag et diagram i mermaid.live. Skriv mermaid-koden i filen RAPPORT.md. 
 
-**Krav til skjemaet:**
+**Del C** Forklar i rapporten hvofror denne modellen er på 3NF (NF - normalform).
+
+#### Krav til skjemaet
 
 - `Kontoer.overordnet_guid` skal være en selvhenvisende fremmednøkkel med `ON DELETE RESTRICT`.
 - `Kontoer.kontoklasse` skal være en fremmednøkkel til `Kontoklasser.klasse_nr`.
