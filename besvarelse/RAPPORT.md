@@ -134,8 +134,8 @@ Mermaid kode:
    Kontoklasser ||--o{ Kontoer : "Klassifiserer"
    MVA_koder || -- o{ MVA_linjer : "parameter"
    
-   Transaksjoner  ||--|{ Posteringer : "Inneholder"
-   Transaksjoner ||--o{ MVA_linjer : "Constraint"
+   Transaksjoner ||--|{ Posteringer : "Inneholder"
+   Transaksjoner ||--o{ MVA_linjer : "Premisser"
    Regnskapsperioder || -- o{ Transaksjoner : "Tilhører"
    
    Kontoer ||--o{ Posteringer : "Berører"
