@@ -99,7 +99,7 @@ Mermaid kode:
     BIGINT antall_teller "Antall enheter ikke NULL Standardverdi 0"
     BIGINT antall_nevner "Nevner for antall ikke NULL sjekk større enn 0"
    }
-   MVA-koder{
+   MVA_koder{
     CHAR(32) guid PK
     TEXT kode "Ikke NULL Unik"
     TEXT navn "Utgående MVA, høy sats (25%) f.eks ikke NULL"
@@ -109,7 +109,7 @@ Mermaid kode:
     VARCHAR(32) mva_konto_guid FK "MVA-beløpet skal posteres på. Ikke NULL"
     INT aktiv "Boolsk flag 1/0 om koden er i aktiv bruk, ikke NULL Standardverdi TRUE"
    }
-   MVA-linjer{
+   MVA_linjer{
     CHAR(32) guid PK
     CHAR(32) transaksjon_guid FK "Ikke NULL Fra Transaksjoner"
     CHAR(32) mva_kode_guid FK "Ikke NULL fra MVA_KODER" 
