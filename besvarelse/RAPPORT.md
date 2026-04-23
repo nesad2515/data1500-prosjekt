@@ -138,7 +138,6 @@ Mermaid kode:
    Transaksjoner ||--o{ MVA_linjer : "Constraint"
    Regnskapsperioder || -- o{ Transaksjoner : "Tilhører"
    
-   Kontoer ||--o{ Lot : "Tilhører"
    Kontoer ||--o{ Posteringer : "Berører"
 
 
