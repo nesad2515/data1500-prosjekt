@@ -1,0 +1,113 @@
+# ============================================================
+# Oppgave 10B: Staging av Finansielle Dokumenter med MongoDB
+# NS 4102 Regnskapssystem — Docker Compose Stack
+#
+# Tjenester:
+#   db       — PostgreSQL 15 (primær relasjonsdatabase, NS 4102)
+#   mongo    — MongoDB 7   (staging-database for rådata fra API)
+#   app      — Python 3.11 applikasjonsserver (FastAPI + ETL + cron)
+# ============================================================
+
+services:
+
+  # ──────────────────────────────────────────────────────────
+  # PostgreSQL — Primær relasjonsdatabase (NS 4102-modellen)
+  # ──────────────────────────────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: regnskap_db_11
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       regnskap
+      POSTGRES_USER:     regnskap_user
+      POSTGRES_PASSWORD: regnskap_pass
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U regnskap_user -d regnskap"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ──────────────────────────────────────────────────────────
+  # MongoDB — Staging-database for rådata fra finansielle API-er
+  #
+  # Collections:
+  #   raw_financial_data  — Rå JSON-responser fra Alpha Vantage
+  #   etl_logg            — Historikk over ETL-kjøringer
+  #   verdipapirer        — Metadata om overvåkede verdipapirer
+  # ──────────────────────────────────────────────────────────
+  mongo:
+    image: mongo:7
+    container_name: regnskap_mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo_user
+      MONGO_INITDB_ROOT_PASSWORD: mongo_pass
+      MONGO_INITDB_DATABASE:      finansdata
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      # Eksponeres lokalt for mongosh-tilgang under utvikling
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  # ──────────────────────────────────────────────────────────
+  # App — Python 3.11 applikasjonsserver
+  #   - FastAPI REST API (port 8000)
+  #   - APScheduler cron-jobber (automatisk ETL-kjøring)
+  #   - psycopg2 (PostgreSQL-klient)
+  #   - pymongo (MongoDB-klient)
+  #   - requests (HTTP-klient for Alpha Vantage API)
+  # ──────────────────────────────────────────────────────────
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: regnskap_etl_app
+    restart: unless-stopped
+    environment:
+      # PostgreSQL
+      DB_HOST:     db
+      DB_PORT:     5432
+      DB_NAME:     regnskap
+      DB_USER:     regnskap_user
+      DB_PASSWORD: regnskap_pass
+      # MongoDB
+      MONGO_URI:   mongodb://mongo_user:mongo_pass@mongo:27017/finansdata?authSource=admin
+      MONGO_DB:    finansdata
+      # Alpha Vantage API (gratis nøkkel fra alphavantage.co)
+      # Bruk "demo" for testdata uten registrering
+      ALPHA_VANTAGE_API_KEY: demo
+      # ExchangeRate-API (ingen nøkkel nødvendig)
+      VALUTA_API_URL: https://open.er-api.com/v6/latest
+      # Cron-konfigurasjon
+      ETL_INTERVALL_SEKUNDER: 3600
+      # Logging
+      LOG_LEVEL: INFO
+    volumes:
+      - ./app:/app:rw
+    ports:
+      - "8001:8001"
+    depends_on:
+      db:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+
+# ──────────────────────────────────────────────────────────
+# Navngitte volumer
+# ──────────────────────────────────────────────────────────
+volumes:
+  pg_data:
+    driver: local
+  mongo_data:
+    driver: local

@@ -1,0 +1,22 @@
+# Web-rammeverk og ASGI-server
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+
+# Databaseklienter
+psycopg2-binary==2.9.9
+
+# Redis-klient
+redis==5.0.4
+
+# HTTP-klient for eksterne API-er
+requests==2.31.0
+
+# Cron-planlegger (APScheduler)
+APScheduler==3.10.4
+
+# Datavalidering
+pydantic==2.7.1
+pydantic-settings==2.2.1
+
+# Logging og utilities
+python-dotenv==1.0.1

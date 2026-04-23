@@ -1,0 +1,111 @@
+# ============================================================
+# Oppgave 10A: Valutakurs-Cache med Redis
+# NS 4102 Regnskapssystem — Docker Compose Stack
+#
+# Tjenester:
+#   db       — PostgreSQL 15 (primær relasjonsdatabase)
+#   redis    — Redis 7 (valutakurs-cache med TTL)
+#   app      — Python 3.11 applikasjonsserver (FastAPI + cron)
+# ============================================================
+
+services:
+
+  # ──────────────────────────────────────────────────────────
+  # PostgreSQL — Primær relasjonsdatabase (NS 4102-modellen)
+  # ──────────────────────────────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: regnskap_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       regnskap
+      POSTGRES_USER:     regnskap_user
+      POSTGRES_PASSWORD: regnskap_pass
+    volumes:
+      # Initialisering: kjøres automatisk ved første oppstart
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+      # Persistent lagring av databasefiler
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      # Eksponeres lokalt for direkte psql-tilgang under utvikling
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U regnskap_user -d regnskap"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ──────────────────────────────────────────────────────────
+  # Redis — Valutakurs-cache med TTL
+  # ──────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: regnskap_redis
+    restart: unless-stopped
+    # Aktiver persistens: lagre snapshot hvert 60. sekund
+    # hvis minst 1 nøkkel har endret seg (for utvikling)
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+    ports:
+      # Eksponeres lokalt for redis-cli-tilgang under utvikling
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ──────────────────────────────────────────────────────────
+  # App — Python 3.11 applikasjonsserver
+  #   - FastAPI REST API (port 8000)
+  #   - APScheduler cron-jobber (automatisk kursoppdatering)
+  #   - psycopg2 (PostgreSQL-klient)
+  #   - redis-py (Redis-klient)
+  #   - requests (HTTP-klient for eksterne API-er)
+  # ──────────────────────────────────────────────────────────
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: regnskap_app
+    restart: unless-stopped
+    environment:
+      # Databasetilkobling
+      DB_HOST:     db
+      DB_PORT:     5432
+      DB_NAME:     regnskap
+      DB_USER:     regnskap_user
+      DB_PASSWORD: regnskap_pass
+      # Redis-tilkobling
+      REDIS_HOST:  redis
+      REDIS_PORT:  6379
+      # Cache-konfigurasjon
+      CACHE_TTL_SEKUNDER: 3600        # 1 time
+      # Cron-konfigurasjon (oppdater kurser hver time)
+      KURS_OPPDATERING_INTERVALL: 3600
+      # Ekstern API (ExchangeRate-API — ingen nøkkel nødvendig)
+      VALUTA_API_URL: "https://open.er-api.com/v6/latest"
+      # Norges Bank API (offisielle norske kurser)
+      NORGES_BANK_API_URL: "https://data.norges-bank.no/api/data/EXR"
+      # Python-logging
+      LOG_LEVEL: INFO
+    volumes:
+      # Hot-reload: monter app-koden inn i containeren
+      - ./app:/app:rw
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+# ──────────────────────────────────────────────────────────
+# Navngitte volumer for persistent lagring
+# ──────────────────────────────────────────────────────────
+volumes:
+  pg_data:
+    driver: local
+  redis_data:
+    driver: local
